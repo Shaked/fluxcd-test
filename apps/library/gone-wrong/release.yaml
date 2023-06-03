@@ -15,4 +15,5 @@ spec:
       version: '*'
       valuesFiles:
       - "./charts/gone-wrong/values.yaml"
+      - "./charts/gone-wrong/values_does_not_exist.yaml"
   interval: 10m0s
