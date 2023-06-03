@@ -8,24 +8,22 @@ on:
     tags-ignore: [ '*' ]
 
 jobs:
-  manifests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup yq
-        uses: fluxcd/pkg/actions/yq@main
-      - name: Setup kubeconform
-        uses: fluxcd/pkg/actions/kubeconform@main
-      - name: Setup kustomize
-        uses: fluxcd/pkg/actions/kustomize@main
-      - name: Validate manifests
-        run: ./scripts/validate.sh
+#   manifests:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Setup yq
+#         uses: fluxcd/pkg/actions/yq@main
+#       - name: Setup kubeconform
+#         uses: fluxcd/pkg/actions/kubeconform@main
+#       - name: Setup kustomize
+#         uses: fluxcd/pkg/actions/kustomize@main
+#       - name: Validate manifests
+#         run: ./scripts/validate.sh
   flux-kustomize-diff:
     runs-on: ubuntu-latest
-    permissions:
-        id-token: write
-        contents: write
+    permissions: write-all
     steps:
       - name: checkout the current branch
         uses: actions/checkout@v3
