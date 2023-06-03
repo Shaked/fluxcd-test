@@ -46,7 +46,7 @@ jobs:
             --context kind-kind \
             --personal
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SPECIAL_GITHUB_ACTIONS_FLUXCD_TEST }}
 
       - name: reconcile the cluster
         run: flux reconcile kustomization flux-system --with-source
