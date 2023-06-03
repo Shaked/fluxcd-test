@@ -23,6 +23,9 @@ jobs:
         run: ./scripts/validate.sh
   flux-kustomize-diff:
     runs-on: ubuntu-latest
+    permissions:
+        id-token: write
+        contents: write
     steps:
       - name: checkout the current branch
         uses: actions/checkout@v3
@@ -44,6 +47,8 @@ jobs:
             --path=./clusters/flux-system \
             --context kind-kind \
             --personal
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: reconcile the cluster
         run: flux reconcile kustomization flux-system --with-source
