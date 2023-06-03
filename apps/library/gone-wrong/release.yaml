@@ -1,0 +1,18 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gone-wrong
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: ./charts/gone-wrong
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+      version: '*'
+      valuesFiles:
+      - "./charts/gone-wrong/values.yaml"
+  interval: 10m0s
