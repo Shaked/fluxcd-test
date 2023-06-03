@@ -51,5 +51,8 @@ jobs:
       - name: reconcile the cluster
         run: flux reconcile kustomization flux-system --with-source
 
+      - name: reconcile the same as the diff
+        run: flux reconcile kustomization apps --with-source
+
       - name: run diff on the cluster
         run: flux diff kustomization apps --path apps --kustomization-file clusters/tests/apps.yaml --verbose
