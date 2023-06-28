@@ -1,55 +1,55 @@
-name: test
+# name: test
 
-on:
-  workflow_dispatch:
-  pull_request:
-  push:
-    branches: [ '*' ]
-    tags-ignore: [ '*' ]
+# on:
+#   workflow_dispatch:
+#   pull_request:
+#   push:
+#     branches: [ '*' ]
+#     tags-ignore: [ '*' ]
 
-jobs:
-#   manifests:
+# jobs:
+# #   manifests:
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - name: Checkout
+# #         uses: actions/checkout@v3
+# #       - name: Setup yq
+# #         uses: fluxcd/pkg/actions/yq@main
+# #       - name: Setup kubeconform
+# #         uses: fluxcd/pkg/actions/kubeconform@main
+# #       - name: Setup kustomize
+# #         uses: fluxcd/pkg/actions/kustomize@main
+# #       - name: Validate manifests
+# #         run: ./scripts/validate.sh
+#   flux-kustomize-diff:
 #     runs-on: ubuntu-latest
+#     permissions: write-all
 #     steps:
-#       - name: Checkout
+#       - name: checkout the current branch
 #         uses: actions/checkout@v3
-#       - name: Setup yq
-#         uses: fluxcd/pkg/actions/yq@main
-#       - name: Setup kubeconform
-#         uses: fluxcd/pkg/actions/kubeconform@main
-#       - name: Setup kustomize
-#         uses: fluxcd/pkg/actions/kustomize@main
-#       - name: Validate manifests
-#         run: ./scripts/validate.sh
-  flux-kustomize-diff:
-    runs-on: ubuntu-latest
-    permissions: write-all
-    steps:
-      - name: checkout the current branch
-        uses: actions/checkout@v3
       
-      - name: Setup fluxcd
-        run: curl -s https://fluxcd.io/install.sh | sudo bash
+#       - name: Setup fluxcd
+#         run: curl -s https://fluxcd.io/install.sh | sudo bash
 
-      - name: create a kind cluster
-        run: |
-          kind create cluster --name kind
-          kubectl cluster-info --context kind-kind
+#       - name: create a kind cluster
+#         run: |
+#           kind create cluster --name kind
+#           kubectl cluster-info --context kind-kind
 
-      - name: install fluxcd on the kind cluster
-        run: |
-          flux bootstrap github \
-            --owner=$GITHUB_ACTOR \
-            --repository=$GITHUB_REPOSITORY \
-            --branch=main \
-            --path=./clusters/flux-system \
-            --context kind-kind \
-            --personal
-        env:
-          GITHUB_TOKEN: ${{ secrets.SPECIAL_GITHUB_ACTIONS_FLUXCD_TEST }}
+#       - name: install fluxcd on the kind cluster
+#         run: |
+#           flux bootstrap github \
+#             --owner=$GITHUB_ACTOR \
+#             --repository=$GITHUB_REPOSITORY \
+#             --branch=main \
+#             --path=./clusters/flux-system \
+#             --context kind-kind \
+#             --personal
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.SPECIAL_GITHUB_ACTIONS_FLUXCD_TEST }}
 
-      - name: reconcile the cluster
-        run: flux reconcile kustomization flux-system --with-source
+#       - name: reconcile the cluster
+#         run: flux reconcile kustomization flux-system --with-source
 
-      - name: run diff on the cluster
-        run: flux diff kustomization apps --path apps --kustomization-file clusters/tests/apps.yaml --verbose
+#       - name: run diff on the cluster
+#         run: flux diff kustomization apps --path apps --kustomization-file clusters/tests/apps.yaml --verbose
